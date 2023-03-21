@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import {setLoadingState} from "./loaderSlice";
 
 // Slice
 // A function that accepts an initial state, an object full of reducer functions,
@@ -28,8 +29,10 @@ const {SET_PRODUCTS} = productsSlice.actions
 const {SET_SINGLE_PRODUCT} = productsSlice.actions
 
 
+
 // Fetch multiple products
 export const fetchProducts = () => async dispatch => {
+    dispatch(setLoadingState(true))
     try {
         // const res = await api.post('/api/auth/login/', { username, password })
         const response = await fetch('https://dummyjson.com/products');
@@ -41,11 +44,14 @@ export const fetchProducts = () => async dispatch => {
     } catch (e) {
         // handle any errors that occur during fetching the products data
         return console.error(e.message);
+    } finally {
+        dispatch(setLoadingState(false))
     }
 }
 
 // Fetch single product
 export const fetchProductById = (id) => async dispatch => {
+    dispatch(setLoadingState(true))
     try {
         const response = await fetch(`https://dummyjson.com/products/${id}`);
         const data = await response.json();
@@ -55,6 +61,8 @@ export const fetchProductById = (id) => async dispatch => {
     } catch (e) {
         // handle any errors that occur during the fetch
         return console.error(e.message);
+    } finally {
+        dispatch(setLoadingState(false))
     }
 }
 
