@@ -2,10 +2,11 @@ import {useParams} from 'react-router-dom';
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import {fetchProductById} from '../../store/modules/productsSlice';
+import {addSingleProductToCart} from "../../store/modules/cartSlice";
 
 const ProductDetailsPage = () => {
     const dispatch = useDispatch(); // Help you to dispatch actions, Example: dispatch(fetchProduct(id))
-    const {singleProduct} = useSelector(state => state.products); // GETS YOU THE PRODUCTS FROM THE STORE
+    const {singleProduct, isError} = useSelector(state => state.products); // GETS YOU THE PRODUCTS FROM THE STORE
     let {id} = useParams();
 
     useEffect(() => {
@@ -16,7 +17,7 @@ const ProductDetailsPage = () => {
 
     return (
         <>
-            {singleProduct && <div>
+            {singleProduct && !isError && <div>
                 <div className="bg-white">
                     <div className="pt-6">
                         {/*Image gallery*/}
@@ -73,7 +74,7 @@ const ProductDetailsPage = () => {
                                 <h2 className="sr-only">Product information</h2>
                                 <p className="text-3xl tracking-tight text-gray-900">NOK{singleProduct.price}</p>
                                 <div className="mt-10">
-                                    <button type="submit"
+                                    <button type="submit" onClick={() => dispatch(addSingleProductToCart(singleProduct))}
                                             className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-blue-600 py-3 px-8 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                     >
                                         Add to cart
@@ -113,6 +114,7 @@ const ProductDetailsPage = () => {
                 </div>
 
             </div>}
+            {isError && <h1>Page not found. Error</h1>}
         </>
     );
 };

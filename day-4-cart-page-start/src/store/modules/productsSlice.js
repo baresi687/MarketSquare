@@ -10,6 +10,7 @@ const productsSlice = createSlice({
     initialState: { // Here is the initial state // = data
         products: [], // e.g
         singleProduct: null,
+        isError: false
     },
     reducers: { // Here are the functions which amend the state // mutations for state
         SET_PRODUCTS: (state, action) => { // e.g
@@ -19,6 +20,9 @@ const productsSlice = createSlice({
         SET_SINGLE_PRODUCT: (state, action) => {
             console.log("SET_SINGLE_PRODUCT: action.payload", action.payload)
             state.singleProduct = action.payload;
+        },
+        SET_ERROR: (state, action) => {
+            state.isError = action.payload
         }
     },
 });
@@ -50,8 +54,9 @@ export const fetchProducts = () => async dispatch => {
 // Fetch single product
 export const fetchProductById = (id) => async dispatch => {
     dispatch(setLoadingState(true));
+    let response
     try {
-        const response = await fetch(`https://dummyjson.com/products/${id}`);
+        response = await fetch(`https://dummyjson.com/products/${id}`);
         const data = await response.json();
         console.log("Single Product Data: ", data);
         // dispatch an action with the retrieved data
@@ -61,6 +66,19 @@ export const fetchProductById = (id) => async dispatch => {
         // handle any errors that occur during the fetch
         return console.error(e.message);
     }
+
+    if (response.ok) {
+        console.log('response ok')
+    } else {
+        console.log('response NOT OK')
+        dispatch(handleErrorResponse(true))
+    }
+}
+
+const {SET_ERROR} = productsSlice.actions
+
+export const handleErrorResponse = (responseStatus) => async dispatch => {
+    dispatch(SET_ERROR(responseStatus))
 }
 
 
