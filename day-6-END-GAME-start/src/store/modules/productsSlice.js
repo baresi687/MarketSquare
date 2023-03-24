@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 import {setLoadingState} from "./loaderSlice"
+import {setError} from "./errorSlice";
 
 // Slice
 // A function that accepts an initial state, an object full of reducer functions,
@@ -39,7 +40,7 @@ export const fetchProducts = () => async dispatch => {
     dispatch(setLoadingState(true)); // we are showing the loader
     try {
         // const res = await api.post('/api/auth/login/', { username, password })
-        const response = await fetch('https://dummyjson.com/products');
+        const response = await fetch('https://dummyjson.com/prod');
         const data = await response.json();
         console.log(data);
 
@@ -48,6 +49,8 @@ export const fetchProducts = () => async dispatch => {
         dispatch(setLoadingState(false)); // we are hiding the loader
     } catch (e) {
         // handle any errors that occur during fetching the products data
+        dispatch(setLoadingState(false))
+        dispatch(setError(true, e.message))
         return console.error(e.message);
     }
 }

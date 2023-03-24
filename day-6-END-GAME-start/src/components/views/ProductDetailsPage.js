@@ -27,6 +27,7 @@ const ProductDetailsPage = () => {
                                 {singleProduct.images[0] &&
                                     <div className="aspect-w-3 aspect-h-4 hidden overflow-hidden rounded-lg lg:block">
                                         <img
+                                            loading={'lazy'}
                                             src={singleProduct.images[0]}
                                             alt="Two each of gray, white, and black shirts laying flat."
                                             className="object-contain object-center h-72"/>
@@ -36,12 +37,14 @@ const ProductDetailsPage = () => {
                                     <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
                                         <div className="aspect-w-3 aspect-h-2 overflow-hidden rounded-lg">
                                             <img
+                                                 loading={'lazy'}
                                                 src={singleProduct.images[1]}
                                                 alt="Model wearing plain black basic tee."
                                                 className="h-full w-full object-contain object-center"/>
                                         </div>
                                         <div className="aspect-w-3 aspect-h-2 overflow-hidden rounded-lg">
                                             <img
+                                                loading={'lazy'}
                                                 src={singleProduct.images[2]}
                                                 alt="Model wearing plain gray basic tee."
                                                 className="h-full w-full object-contain object-center"/>
@@ -52,6 +55,7 @@ const ProductDetailsPage = () => {
                                     <div
                                         className="aspect-w-4 aspect-h-5 sm:overflow-hidden sm:rounded-lg lg:aspect-w-3 lg:aspect-h-4">
                                         <img
+                                            loading={'lazy'}
                                             src={singleProduct.images[3]}
                                             alt="Model wearing plain white basic tee."
                                             className="h-full w-full object-contain object-center"/>
